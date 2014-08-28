@@ -1,12 +1,157 @@
+{% load static from staticfiles %}
+
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-	{% load static from staticfiles %}
-	<link rel="stylesheet" href="{% static 'css/main.css' %}">
-</head>
-<body>
-	<h1>Hola Mundo!</h1>
-</body>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+        <script src="{% static 'js/vendor/modernizr-2.6.2-respond-1.1.0.min.js' %}"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div class="navbar navbar-default">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">DondeComer</a>
+            </div>
+
+            <div class="collapse navbar-collapse navbar-right" id="menu">
+              <a href="" class="btn btn-default navbar-btn">Login con Facebook</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          
+          <div class="row">
+            
+            <div class="col-sm-6">
+              <h3>Encuentra el mejor lugar para comer</h3>
+            </div>
+            <div class="col-sm-6 buscador-home">
+              <div class="input-group">
+                <div class="input-group-btn">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Elige ciudad <span class="caret"></span></button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Trujillo</a></li>
+                    <li><a href="#">Lima</a></li>
+                    <li><a href="#">Chiclayo</a></li>
+                    <li><a href="#">Cuzco</a></li>
+                  </ul>
+                </div><!-- /btn-group -->
+                <input type="text" class="form-control" placeholder="Encuentra tu restaurant favorito">
+              </div><!-- /input-group -->
+            </div>
+
+          </div>
+
+          <div class="row contenido-home">
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label for="">Tipo de comida</label>
+                <div class="checkbox">
+                  <label for="">
+                    <input type="checkbox"> Todo
+                  </label>
+                </div>
+                <div class="checkbox">
+                  <label for="">
+                    <input type="checkbox"> Criolla
+                  </label>
+                </div>
+                <div class="checkbox">
+                  <label for="">
+                    <input type="checkbox"> Mariscos
+                  </label>
+                </div>
+                <div class="checkbox">
+                  <label for="">
+                    <input type="checkbox"> Chifa
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="">Formas de pago</label>
+                <div class="checkbox">
+                  <label for="">
+                    <input type="checkbox"> Todo
+                  </label>
+                </div>
+                <div class="checkbox">
+                  <label for="">
+                    <input type="checkbox"> Efectivo
+                  </label>
+                </div>
+                <div class="checkbox">
+                  <label for="">
+                    <input type="checkbox"> Visa
+                  </label>
+                </div>
+                <div class="checkbox">
+                  <label for="">
+                    <input type="checkbox"> MasterCard
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-9">
+              <div class="list-group">
+                <a href="" class="list-group-item">
+                  <div class="col-sm-3">
+                    <img src="http://placehold.it/350x250" class="media-object img-rounded img-responsive" alt="">
+                  </div>
+                  <div class="col-sm-6">
+                    <h3>El Mochica</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt eum, accusamus perspiciatis quo cumque deleniti quibusdam voluptatibus nulla at quod velit asperiores, ut debitis animi ipsum aspernatur minima optio necessitatibus.</p>
+                  </div>
+                  <div class="col-sm-3 text-center">
+                    <h2>4 <small>tips</small></h2>
+                    <button type="button" class="btn btn-primary btn-lg btn-block">Ver detalle</button>
+                  </div>
+                </a>
+
+                <a href="" class="list-group-item">
+                  <div class="col-sm-3">
+                    <img src="http://placehold.it/350x250" class="media-object img-rounded img-responsive" alt="">
+                  </div>
+                  <div class="col-sm-6">
+                    <h3>El Mochica</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt eum, accusamus perspiciatis quo cumque deleniti quibusdam voluptatibus nulla at quod velit asperiores, ut debitis animi ipsum aspernatur minima optio necessitatibus.</p>
+                  </div>
+                  <div class="col-sm-3 text-center">
+                    <h2>4 <small>tips</small></h2>
+                    <button type="button" class="btn btn-primary btn-lg btn-block">Ver detalle</button>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="{% static "js/vendor/jquery-1.11.0.min.js" %}"><\/script>')</script>
+
+        <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
+    </body>
 </html>

@@ -1,3 +1,31 @@
-body{
-	background-color: #c3c3c3;
+
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+
+.buscador-home {
+	margin-top: 20px;
+	margin-bottom: 10px;
 }
+
+.list-group-item {
+	min-height: 200px;
+	border: none;
+}
+
+
+.contenido-home {
+	margin-top: 2em;
+}
+
+
+
+
+
+
+
+
+
+
