@@ -52,10 +52,9 @@
                 <div class="input-group-btn">
                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Elige ciudad <span class="caret"></span></button>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Trujillo</a></li>
-                    <li><a href="#">Lima</a></li>
-                    <li><a href="#">Chiclayo</a></li>
-                    <li><a href="#">Cuzco</a></li>
+                    {% for city in cities %}
+                      <li><a href="#">{{ city.name }}</a></li>
+                    {% endfor %}
                   </ul>
                 </div><!-- /btn-group -->
                 <input type="text" class="form-control" placeholder="Encuentra tu restaurant favorito">
@@ -73,22 +72,14 @@
                     <input type="checkbox"> Todo
                   </label>
                 </div>
-                <div class="checkbox">
-                  <label for="">
-                    <input type="checkbox"> Criolla
-                  </label>
-                </div>
-                <div class="checkbox">
-                  <label for="">
-                    <input type="checkbox"> Mariscos
-                  </label>
-                </div>
-                <div class="checkbox">
-                  <label for="">
-                    <input type="checkbox"> Chifa
-                  </label>
-                </div>
-              </div>
+                {% for category in categories %}
+                  <div class="checkbox">
+                    <label for="">
+                      <input type="checkbox"> {{ category.name }}
+                    </label>
+                  </div>
+                {% endfor %}
+                
 
               <div class="form-group">
                 <label for="">Formas de pago</label>
@@ -97,55 +88,37 @@
                     <input type="checkbox"> Todo
                   </label>
                 </div>
-                <div class="checkbox">
-                  <label for="">
-                    <input type="checkbox"> Efectivo
-                  </label>
-                </div>
-                <div class="checkbox">
-                  <label for="">
-                    <input type="checkbox"> Visa
-                  </label>
-                </div>
-                <div class="checkbox">
-                  <label for="">
-                    <input type="checkbox"> MasterCard
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-9">
-              <div class="list-group">
-                <a href="" class="list-group-item">
-                  <div class="col-sm-3">
-                    <img src="http://placehold.it/350x250" class="media-object img-rounded img-responsive" alt="">
+                {% for payment in payments %}
+                  <div class="checkbox">
+                    <label for="">
+                      <input type="checkbox"> {{ payment.pay }}
+                    </label>
                   </div>
-                  <div class="col-sm-6">
-                    <h3>El Mochica</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt eum, accusamus perspiciatis quo cumque deleniti quibusdam voluptatibus nulla at quod velit asperiores, ut debitis animi ipsum aspernatur minima optio necessitatibus.</p>
-                  </div>
-                  <div class="col-sm-3 text-center">
-                    <h2>4 <small>tips</small></h2>
-                    <button type="button" class="btn btn-primary btn-lg btn-block">Ver detalle</button>
-                  </div>
-                </a>
-
-                <a href="" class="list-group-item">
-                  <div class="col-sm-3">
-                    <img src="http://placehold.it/350x250" class="media-object img-rounded img-responsive" alt="">
-                  </div>
-                  <div class="col-sm-6">
-                    <h3>El Mochica</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt eum, accusamus perspiciatis quo cumque deleniti quibusdam voluptatibus nulla at quod velit asperiores, ut debitis animi ipsum aspernatur minima optio necessitatibus.</p>
-                  </div>
-                  <div class="col-sm-3 text-center">
-                    <h2>4 <small>tips</small></h2>
-                    <button type="button" class="btn btn-primary btn-lg btn-block">Ver detalle</button>
-                  </div>
-                </a>
+                {% endfor %}
               </div>
             </div>
           </div>
+            <div class="col-sm-9">
+              <div class="list-group">
+                {% for restaurant, tips in restaurants %}
+                    <a href="" class="list-group-item">
+                      <div class="col-sm-3">
+                        <img src="{{ MEDIA_URL }}{{ restaurant.imagen }}" class="media-object img-rounded img-responsive" alt="">
+                      </div>
+                      <div class="col-sm-6">
+                        <h3>{{ restaurant.name }}</h3>
+                        <p>{{ restaurant.description }}</p>
+                      </div>
+                      <div class="col-sm-3 text-center">
+                        <h2>{{ tips }} <small>tips</small></h2>
+                        <button type="button" class="btn btn-primary btn-lg btn-block">Ver detalle</button>
+                      </div>
+                    </a>
+                {% endfor %}
+                
+              </div>
+            </div>
+          
 
         </div>
 
