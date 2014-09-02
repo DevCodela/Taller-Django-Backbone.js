@@ -33,10 +33,14 @@
               </button>
               <a class="navbar-brand" href="#">DondeComer</a>
             </div>
-
+            {% if user.is_authenticated %}
+                {{user.username}}
+            {% else %}
             <div class="collapse navbar-collapse navbar-right" id="menu">
-              <a href="" class="btn btn-default navbar-btn">Login con Facebook</a>
+              <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-default navbar-btn">Login con Facebook</a>
             </div>
+            {% endif %}
+            
           </div>
         </div>
 
