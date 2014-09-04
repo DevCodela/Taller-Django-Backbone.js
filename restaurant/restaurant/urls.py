@@ -11,6 +11,8 @@ urlpatterns = patterns('',
 
     url(r'^', include('apps.restaurants.urls')),
 
+    url('', include('social.apps.django_app.urls', namespace='social')),
+
     url(r'^media/(?P<path>.*)$','django.views.static.serve',
             {'document_root':settings.MEDIA_ROOT,}
         ),
