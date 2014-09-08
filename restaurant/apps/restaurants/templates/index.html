@@ -61,7 +61,7 @@
                     {% endfor %}
                   </ul>
                 </div><!-- /btn-group -->
-                <input type="text" class="form-control" placeholder="Encuentra tu restaurant favorito">
+                <input type="text" class="form-control" id="buscador" placeholder="Encuentra tu restaurant favorito">
               </div><!-- /input-group -->
             </div>
 
@@ -128,7 +128,10 @@
               </a>
           
         </script>
-
+        <script>
+          window.stade = false;
+          window.cantidad = 5;
+        </script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="{% static "js/vendor/jquery-1.11.0.min.js" %}"><\/script>')</script>
 
