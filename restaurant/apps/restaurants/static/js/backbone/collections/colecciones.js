@@ -7,3 +7,4 @@ var restaurants = Backbone.Collection.extend({
 
 app.restaurantsCollection = new restaurants();
 
+

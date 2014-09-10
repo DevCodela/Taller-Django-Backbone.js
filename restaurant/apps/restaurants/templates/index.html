@@ -55,9 +55,9 @@
               <div class="input-group">
                 <div class="input-group-btn">
                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Elige ciudad <span class="caret"></span></button>
-                  <ul class="dropdown-menu" role="menu">
+                  <ul class="dropdown-menu" role="menu" id="ciudad">
                     {% for city in cities %}
-                      <li><a href="#">{{ city.name }}</a></li>
+                      <li><a href="#" data-value="{{ city.id }}">{{ city.name }}</a></li>
                     {% endfor %}
                   </ul>
                 </div><!-- /btn-group -->
@@ -73,13 +73,13 @@
                 <label for="">Tipo de comida</label>
                 <div class="checkbox">
                   <label for="">
-                    <input type="checkbox"> Todo
+                    <input type="checkbox" class="categoria" name="categoria" id="0"> Todo
                   </label>
                 </div>
                 {% for category in categories %}
                   <div class="checkbox">
                     <label for="">
-                      <input type="checkbox"> {{ category.name }}
+                      <input type="checkbox" name="categoria" id="{{ category.id }}" class="categoria"> {{ category.name }}
                     </label>
                   </div>
                 {% endfor %}
@@ -89,13 +89,13 @@
                 <label for="">Formas de pago</label>
                 <div class="checkbox">
                   <label for="">
-                    <input type="checkbox"> Todo
+                    <input type="checkbox" class="pago" id="0" name="pago"> Todo
                   </label>
                 </div>
                 {% for payment in payments %}
                   <div class="checkbox">
                     <label for="">
-                      <input type="checkbox"> {{ payment.pay }}
+                      <input type="checkbox" name="pago" id="{{ payment.id }}" class="pago"> {{ payment.pay }}
                     </label>
                   </div>
                 {% endfor %}
@@ -132,6 +132,10 @@
         <script>
           window.stade = false;
           window.cantidad = 5;
+
+          window.ciudad = -1;
+          window.categoria = -1;
+          window.pago = -1;
         </script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="{% static "js/vendor/jquery-1.11.0.min.js" %}"><\/script>')</script>
