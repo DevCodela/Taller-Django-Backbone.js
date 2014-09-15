@@ -54,10 +54,10 @@
             <div class="col-sm-6 buscador-home">
               <div class="input-group">
                 <div class="input-group-btn">
-                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Elige ciudad <span class="caret"></span></button>
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="city">Elige ciudad <span class="caret"></span></button>
                   <ul class="dropdown-menu" role="menu" id="ciudad">
                     {% for city in cities %}
-                      <li><a href="#" data-value="{{ city.id }}">{{ city.name }}</a></li>
+                      <li><a href="#" id="{{ city.id }}">{{ city.name }}</a></li>
                     {% endfor %}
                   </ul>
                 </div><!-- /btn-group -->
@@ -73,13 +73,13 @@
                 <label for="">Tipo de comida</label>
                 <div class="checkbox">
                   <label for="">
-                    <input type="checkbox" class="categoria" name="categoria" id="0"> Todo
+                    <input type="checkbox" class="categoria" id="0" value="0"> Todo
                   </label>
                 </div>
                 {% for category in categories %}
                   <div class="checkbox">
                     <label for="">
-                      <input type="checkbox" name="categoria" id="{{ category.id }}" class="categoria"> {{ category.name }}
+                      <input type="checkbox" class="categoria" id="{{ category.id }}"> {{ category.name }}
                     </label>
                   </div>
                 {% endfor %}
@@ -89,13 +89,13 @@
                 <label for="">Formas de pago</label>
                 <div class="checkbox">
                   <label for="">
-                    <input type="checkbox" class="pago" id="0" name="pago"> Todo
+                    <input type="checkbox" class="pago" id="0"> Todo
                   </label>
                 </div>
                 {% for payment in payments %}
                   <div class="checkbox">
                     <label for="">
-                      <input type="checkbox" name="pago" id="{{ payment.id }}" class="pago"> {{ payment.pay }}
+                      <input type="checkbox" id="{{ payment.id }}" class="pago"> {{ payment.pay }}
                     </label>
                   </div>
                 {% endfor %}

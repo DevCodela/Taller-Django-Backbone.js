@@ -5,85 +5,196 @@ app.mainView = Backbone.View.extend({
 
 	events: {
 		'keyup #buscador': 'buscarRestaurant',
+		'click .categoria': 'selectCategoria',
+		'click .pago': 'selectPago',
+		'click #ciudad a': 'selectCiudad'
 	},
 
 	initialize: function(){
 		app.restaurantsCollection.on('add', this.agregarRestaurantFiltro);
 		app.restaurantsCollection.fetch();
 		this.llegoFinal();
-
-		$('.categoria').on('click', this.selectCategoria);
-		$('.pago').on('click', this.selectPago);
-		$('#ciudad a').on('click', this.selectCiudad);
 	},
 
-	selectCategoria: function(){
-		
-		window.categoria = $(this).attr('id');
-        var len = $('.categoria').length;
-        var i = 0;
+	selectCategoria: function(ev){
+		this.$('.list-group').html('');
+		window.stade = true;
+		window.categoria = $(ev.target).attr('id');
+		app.restaurantCategoria = Backbone.Model.extend({
+			urlRoot: 'api/categorias/' + window.categoria + '/restaurants/'
+		});
+		var restaurantsCategoria = Backbone.Collection.extend({
+			model: app.restaurantCategoria,
+			url: '/api/categorias/' + window.categoria + '/restaurants/'
+		});
 
-        while(i<len){
-          if($('.categoria').eq(i).attr('id')!=window.categoria){
-            $('.categoria').eq(i).prop("checked",false);
-          }  
+		app.restaurantsCategoriaCollection = new restaurantsCategoria();
 
-          else{
-            $('.categoria#'+window.categoria).prop("checked",true);
-          }  
-          i++;
-        }
-
-        var restaurantsCategoria = Backbone.Collection.extend({
-        	model: app.restaurantCategoria,
-        	url: '/api/categorias/' + window.categoria + '/restaurants/'
-        });
-        app.restaurantsCategoriaCollection = new restaurantsCategoria();
-        app.restaurantsCategoriaCollection.fetch();
-        var filtro = app.restaurantsCollection.filter(function(modelo){
-        	console.log(modelo);
-        	return modelo;
-        });
-        var filter = app.restaurantsCategoriaCollection.filter(function(cat){
-        	
-        });
-        console.log(filter);
+		if(window.categoria == 0){
+			if(window.ciudad>0 && window.pago>0){
+				this.filtroCiudadPago();
+			}else if(window.ciudad > 0 && window.pago <= 0){
+				this.filtroCiudad();
+			}else if(window.pago > 0 && window.ciudad < 1){
+				this.filtroPago();
+			}else if(window.pago<0 && window.ciudad<1){
+				app.restaurantsCollection.each(this.agregarRestaurant, this);
+			}
+		}else{
+			if(window.ciudad > 0 && window.pago > 0){
+				this.filtroCategoriaCiudadPago();
+			}else if(window.ciudad > 0 && window.pago <= 0){
+				this.filtroCategoriaCiudad();
+			}else if(window.pago > 0 && window.ciudad < 1){
+				this.filtroCategoriaPago();
+			}else if(window.pago<0 && window.ciudad<1){
+				this.filtroCategoria();
+			}
+		}
 	},
 
-	selectPago: function(){
-		window.pago = $(this).attr('id');
-        var len = $('.pago').length;
-        var i = 0;
+	selectPago: function(ev){
+		this.$('.list-group').html('');
+		window.stade = true;
+		window.pago = $(ev.target).attr('id');	
+		var restaurantsPago = Backbone.Collection.extend({
+			model: app.restaurantPago,
+			url: '/api/payments/' + window.pago + '/restaurants/'
+		});
 
-        while(i<len){
-          if($('.pago').eq(i).attr('id')!=window.pago){
-            $('.pago').eq(i).prop("checked",false);
-          }  
+		app.restaurantsPagoCollection = new restaurantsPago();
 
-          else{
-            $('pago#'+window.pago).prop("checked",true);
-          }  
-          i++;
-        }
-
-        var restaurantsPago = Backbone.Collection.extend({
-        	model: app.restaurantPago,
-        	url: '/api/payments/' + window.pago + '/restaurants/'
-        });
-        app.restaurantsPagoCollection = new restaurantsPago();
-        app.restaurantsPagoCollection.fetch();
+		if(window.pago == 0){
+			if(window.ciudad>0 && window.categoria>0){
+				this.filtroCategoriaCiudad();
+			}else if(window.ciudad>0 && window.categoria<=0){
+				this.filtroCiudad();
+			}else if(window.categoria>0 && window.ciudad<1){
+				this.filtroCategoria();
+			}else if(window.categoria<0 && window.ciudad<1){
+				app.restaurantsCollection.each(this.agregarRestaurant, this);
+			}
+		}else{
+			if(window.ciudad>0 && window.categoria>0){
+				this.filtroCategoriaCiudadPago();
+			}else if(window.ciudad>0 && window.categoria<=0){
+				this.filtroCiudadPago();
+			}else if(window.categoria>0 && window.ciudad<1){
+				this.filtroCategoriaPago();
+			}else if(window.categoria<0 && window.ciudad<1){
+				this.filtroPago();
+			}
+		}
 	},
 
-	selectCiudad: function(){
-	    window.ciudad = $(this).data('value');
-
-	    var restaurantsCiudad = Backbone.Collection.extend({
+	selectCiudad: function(ev){
+		this.$('.list-group').html('');
+		window.stade = true;
+		window.ciudad = $(ev.target).attr('id');
+		$('#city').html($(ev.target).text());
+		var restaurantsCiudad = Backbone.Collection.extend({
 			model: app.restaurantCiudad,
 			url: '/api/ciudades/' + window.ciudad + '/restaurants/'
 		});
 
-	    app.restaurantsCiudadCollection = new restaurantsCiudad();
-	    app.restaurantsCiudadCollection.fetch();
+		app.restaurantsCiudadCollection = new restaurantsCiudad();
+
+		if(window.categoria>0 && window.pago>0){
+			this.filtroCategoriaCiudadPago();
+		}else if(window.categoria>0 && window.pago<=0){
+			this.filtroCategoriaCiudad();
+		}else if(window.categoria<=0 && window.pago>0){
+			this.filtroCiudadPago();
+		}else if(window.categoria<=0 && window.pago<=0){
+			this.filtroCiudad();
+		}
+	},
+
+	filtroCiudad: function(){
+		var self = this;
+		app.restaurantsCiudadCollection.fetch({success: function(ciudades){
+			ciudades.each(self.agregarRestaurant, self);
+		}});
+	},
+
+	filtroCategoria: function(){
+		var self = this;
+		app.restaurantsCategoriaCollection.fetch({success: function(categorias){
+			categorias.each(self.agregarRestaurant, self);
+		}});
+	},
+
+	filtroPago: function(){
+		var self = this;
+		app.restaurantsPagoCollection. fetch({success: function(pagos){
+			pagos.each(self.agregarRestaurant, self);
+		}});
+	},
+
+	filtroCategoriaCiudad: function(){
+		var self = this;
+		app.restaurantsCategoriaCollection.fetch({success: function(categorias){
+			categorias.each(function(categoria){
+				app.restaurantsCiudadCollection.fetch({success: function(ciudades){
+					ciudades.each(function(ciudad){
+						if(categoria.get('id') == ciudad.get('id')){
+							self.agregarRestaurant(categoria);
+						}
+					});
+				}});
+			});
+		}});
+	},
+
+	filtroCategoriaPago: function(){
+		var self = this;
+		app.restaurantsCategoriaCollection.fetch({success: function(categorias){
+			categorias.each(function(categoria){
+				app.restaurantsPagoCollection.fetch({success: function(pagos){
+					pagos.each(function(pago){
+						if(categoria.get('id') == pago.get('id')){
+							self.agregarRestaurant(categoria);
+						}
+					});
+				}});
+			});
+		}});
+	},
+
+	filtroCiudadPago: function(){
+		var self = this;
+		app.restaurantCiudadesCollection.fetch({success: function(ciudades){
+			ciudades.each(function(ciudad){
+				app.restaurantsPagoCollection.fetch({success: function(pagos){
+					pagos.each(function(pago){
+						if(ciudad.get('id') == pago.get('id')){
+							self.agregarRestaurant(ciudad);
+						}
+					});
+				}});
+			});
+		}});
+	},
+
+	filtroCategoriaCiudadPago: function(){
+		var self = this;
+		app.restaurantsCategoriaCollection.fetch({success: function(categorias){
+			categorias.each(function(categoria){
+				app.restaurantsCiudadesCollection.fetch({success: function(ciudades){
+					ciudades.each(function(ciudad){
+						app.restaurantsPago.fetch({success: function(pagos){
+							pagos.each(function(pago){
+								if(pago.get('id')==categoria.get('id') &&
+									categoria.get('id')==ciudad.get('id') &&
+									ciudad.get('id')==pago.get('id')){
+									self.agregarRestaurant(categoria);
+								}
+							});
+						}});
+					});
+				}});
+			});
+		}});
 	},
 
 	agregarRestaurant: function(modelo){
