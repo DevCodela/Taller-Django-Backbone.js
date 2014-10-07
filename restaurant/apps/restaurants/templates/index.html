@@ -34,7 +34,9 @@
               <a class="navbar-brand" href="#">DondeComer</a>
             </div>
             {% if user.is_authenticated %}
-                {{user.username}}
+              <div class="collapse navbar-collapse navbar-right" id="menu">
+              <div class="btn btn-default navbar-btn">{{user.username}}</div>
+            </div>
             {% else %}
             <div class="collapse navbar-collapse navbar-right" id="menu">
               <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-default navbar-btn">Login con Facebook</a>
