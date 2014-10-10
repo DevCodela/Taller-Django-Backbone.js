@@ -2,13 +2,20 @@ from rest_framework import viewsets
 from rest_framework.decorators import link
 from rest_framework.response import Response
 
-from .models import Restaurant, Category, City, Payment, Establishment
-from .serializers import RestaurantSerializer, CategorySerializer, CitySerializer, PaymentSerializer
+from .models import Restaurant, Category, City, Payment, Establishment, Tip
+from .serializers import RestaurantSerializer, CategorySerializer, CitySerializer, PaymentSerializer, TipSerializer
 
 class RestaurantViewSet(viewsets.ReadOnlyModelViewSet):
 
 	model = Restaurant
 	serializer_class = RestaurantSerializer
+
+	@link()
+	def tips(self, request, pk=None):
+		tips = Tip.objects.filter(restaurant__pk = pk)
+		serializer = TipSerializer(tips, many=True)
+		return Response(serializer.data)
+
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
 

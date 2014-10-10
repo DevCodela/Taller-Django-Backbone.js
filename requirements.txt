@@ -1,3 +1,11 @@
 Django==1.6.6
-psycopg2==2.5.3
 Pillow==2.5.3
+PyJWT==0.2.1
+djangorestframework==2.4.3
+oauthlib==0.6.3
+psycopg2==2.5.3
+python-openid==2.2.5
+python-social-auth==0.2.1
+requests==2.4.3
+requests-oauthlib==0.4.1
+six==1.8.0

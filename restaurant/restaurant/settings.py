@@ -61,7 +61,7 @@ WSGI_APPLICATION = 'restaurant.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'Restaurant',
+        'NAME': 'restaurant',
         'USER': 'postgres',
         'PASSWORD': '123456',
         'HOST' : 'localhost',

@@ -16,3 +16,7 @@ class IndexView(TemplateView):
 		tips = [ restaurant.tip_set.all().count() for restaurant in restaurants]
 		context['restaurants'] = zip(restaurants, tips)
 		return context
+
+class DetalleView(TemplateView):
+
+	template_name = "detalle.html"

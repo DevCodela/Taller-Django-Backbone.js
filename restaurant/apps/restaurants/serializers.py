@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Restaurant, Category, City, Payment
+from .models import Restaurant, Category, City, Payment, Tip
 
 class RestaurantSerializer(serializers.ModelSerializer):
 
@@ -19,6 +19,11 @@ class CategorySerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Category
+
+class TipSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = Tip
 
 class CitySerializer(serializers.ModelSerializer):
 
