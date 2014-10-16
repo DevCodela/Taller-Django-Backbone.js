@@ -21,7 +21,7 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-
+      
         <div class="navbar navbar-default">
           <div class="container">
             <div class="navbar-header">
@@ -46,63 +46,63 @@
           </div>
         </div>
 
-        <div class="container">
+        <div id="restaurantGeneral" class="container">
           
-          <div class="row">
+            <div class="row">
             
-            <div class="col-sm-6">
-              <h3>Encuentra el mejor lugar para comer</h3>
-            </div>
-            <div class="col-sm-6 buscador-home">
-              <div class="input-group">
-                <div class="input-group-btn">
-                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="city">Elige ciudad <span class="caret"></span></button>
-                  <ul class="dropdown-menu" role="menu" id="ciudad">
-                    {% for city in cities %}
-                      <li><a href="#" id="{{ city.id }}">{{ city.name }}</a></li>
-                    {% endfor %}
-                  </ul>
-                </div><!-- /btn-group -->
-                <input type="text" class="form-control" id="buscador" placeholder="Encuentra tu restaurant favorito">
-              </div><!-- /input-group -->
-            </div>
+                <div class="col-sm-6">
+                  <h3>Encuentra el mejor lugar para comer</h3>
+                </div>
+                <div class="col-sm-6 buscador-home">
+                  <div class="input-group">
+                    <div class="input-group-btn">
+                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="city">Elige ciudad <span class="caret"></span></button>
+                      <ul class="dropdown-menu" role="menu" id="ciudad">
+                        {% for city in cities %}
+                          <li><a href="#" id="{{ city.id }}">{{ city.name }}</a></li>
+                        {% endfor %}
+                      </ul>
+                    </div><!-- /btn-group -->
+                    <input type="text" class="form-control" id="buscador" placeholder="Encuentra tu restaurant favorito">
+                  </div><!-- /input-group -->
+                </div>
 
-          </div>
+            </div>
 
           <div class="row contenido-home">
-            <div class="col-sm-3">
-              <div class="form-group">
-                <label for="">Tipo de comida</label>
-                <div class="checkbox">
-                  <label for="">
-                    <input type="checkbox" class="categoria" id="0" value="0"> Todo
-                  </label>
-                </div>
-                {% for category in categories %}
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label for="">Tipo de comida</label>
                   <div class="checkbox">
                     <label for="">
-                      <input type="checkbox" class="categoria" id="{{ category.id }}"> {{ category.name }}
+                      <input type="checkbox" class="categoria" id="0" value="0"> Todo
                     </label>
                   </div>
-                {% endfor %}
-                
+                  {% for category in categories %}
+                    <div class="checkbox">
+                      <label for="">
+                        <input type="checkbox" class="categoria" id="{{ category.id }}"> {{ category.name }}
+                      </label>
+                    </div>
+                  {% endfor %}
+                  
 
-              <div class="form-group">
-                <label for="">Formas de pago</label>
-                <div class="checkbox">
-                  <label for="">
-                    <input type="checkbox" class="pago" id="0"> Todo
-                  </label>
-                </div>
-                {% for payment in payments %}
+                <div class="form-group">
+                  <label for="">Formas de pago</label>
                   <div class="checkbox">
                     <label for="">
-                      <input type="checkbox" id="{{ payment.id }}" class="pago"> {{ payment.pay }}
+                      <input type="checkbox" class="pago" id="0"> Todo
                     </label>
                   </div>
-                {% endfor %}
+                  {% for payment in payments %}
+                    <div class="checkbox">
+                      <label for="">
+                        <input type="checkbox" id="{{ payment.id }}" class="pago"> {{ payment.pay }}
+                      </label>
+                    </div>
+                  {% endfor %}
+                </div>
               </div>
-            </div>
           </div>
             <div class="col-sm-9">
               <div class="list-group">
@@ -111,30 +111,73 @@
             </div>
           
 
+          </div>
+        </div>
+
+        <div id="detalle" class="container">
+          <div id="datosRestaurant">
+          </div>
+          <button id="atras" class="btn btn-default">Atras
+          </button>
+          <hr>
+          <h4>Tips</h4>
+          
+          <div class="form-group">
+            <label>Dejar tip</label>
+            <input type="text" id="contenido" class="form-control" placeholder="Deja un tip.">
+          </div>
+          <button type="submit" id="agregar-tip" class="btn btn-default">Enviar tip</button>
+          
+
+          <div id="agregaTip" class="media"></div>
         </div>
 
         <script type="text/template" id="tplRestaurant">
-          
-              <a href="" class="list-group-item">
-                <div class="col-sm-3">
-                  <img src="{{ MEDIA_URL }}<%= imagen%>" class="media-object img-rounded img-responsive" alt="">
-                </div>
-                <div class="col-sm-6">
-                  <h3><%= name%></h3>
-                  <p><%= description%></p>
-                </div>
-                <div class="col-sm-3 text-center">
-                  <h2><%= tips%> <small>tips</small></h2>
-                  <button type="button" class="btn btn-primary btn-lg btn-block">Ver detalle</button>
-                </div>
-              </a>
-          
+            <a class="list-group-item">
+              <div class="col-sm-3">
+                <img src="{{ MEDIA_URL }}<%= imagen%>" class="media-object img-rounded img-responsive" alt="">
+              </div>
+              <div class="col-sm-6">
+                <h3><%= name%></h3>
+                <p><%= description%></p>
+              </div>
+              <div class="col-sm-3 text-center">
+                <h2><%= tips%> <small>tips</small></h2>
+                <button type="button" class="btn btn-primary btn-lg btn-block" id="detalleRestaurant">Ver detalle</button>
+              </div>
+            </a>
         </script>
-        
+
+        <script type="text/template" id="tplRestaurantDetalle">
+          <h1 class="page-header"><%= name%></h1>
+
+          <div class="row">
+            <div class="col-lg-4">
+              <img class="img-responsive" src="{{ MEDIA_URL }}<%= imagen%>" alt="">
+            </div>
+            <div class="col-lg-8">
+              <p class="lead"><%= description%></p>
+            </div>
+          </div>
+        </script>
+
+
+        <script type="text/template" id="tplTipRestaurant">
+          <a class="pull-left">
+              <img class="media-object img-64" src="https://pbs.twimg.com/profile_images/497194510766440449/4h13X634_400x400.png" alt="...">
+            </a>
+            <div class="media-body">
+              <h4 class="media-heading"><%= user.username%></h4>
+              <p> <%= content%></p>
+            </div>  
+        </script>
+
         <script>
           window.stade = false;
           window.cantidad = 5;
-
+          window.stadeUrl = '';
+          window.restaurantID = 0;
+          window.username = '{{user.username}}';
           window.ciudad = -1;
           window.categoria = -1;
           window.pago = -1;

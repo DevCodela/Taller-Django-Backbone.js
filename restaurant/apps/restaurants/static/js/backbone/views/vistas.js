@@ -92,6 +92,7 @@ app.mainView = Backbone.View.extend({
 		window.stade = true;
 		window.ciudad = $(ev.target).attr('id');
 		$('#city').html($(ev.target).text());
+
 		var restaurantsCiudad = Backbone.Collection.extend({
 			model: app.restaurantCiudad,
 			url: '/api/ciudades/' + window.ciudad + '/restaurants/'
@@ -252,6 +253,110 @@ app.mainView = Backbone.View.extend({
 
 app.restaurantView = Backbone.View.extend({
 	template: _.template($('#tplRestaurant').html()),
+	events: {
+		'click #detalleRestaurant': 'mostrarDetalle'
+	},
+
+	initialize: function(){
+		var self = this;
+		app.route.on('route:restaurant', function(){
+			self.render();
+		});
+
+		app.route.on('route:detalleRestaurant', function(){
+			self.render();
+		});
+	},
+
+	render: function() {
+		if(window.stadeUrl === "principal"){
+			$('#restaurantGeneral').show();
+			$('#detalle').hide();
+			this.$el.html( this.template( this.model.toJSON() ) );
+		}else if(window.stadeUrl === "detalle"){
+			$('#restaurantGeneral').hide();
+			$('#detalle').show();
+			if(this.model.get('id') == window.restaurantID){
+				console.log(window.restaurantID);
+				app.restaurantTip = Backbone.Model.extend({
+					urlRoot: '/api/restaurants/' + window.restaurantID + '/tips/'
+				});
+				var restaurantTips = Backbone.Collection.extend({
+					model: app.restaurantTip,
+					url: '/api/restaurants/' + window.restaurantID + '/tips/'
+				});
+				$('#agregaTip').html('');
+				app.Tips = new restaurantTips();
+				new app.DetalleRestaurantView({model:this.model});
+				window.restaurantID = '';
+			}
+		}
+		return this;
+	},
+	
+	mostrarDetalle: function(){
+		Backbone.history.navigate('restaurant/' + this.model.get('id'), {trigger:true});
+	}
+});
+
+app.DetalleRestaurantView = Backbone.View.extend({
+	el: '#detalle',
+	events: {
+		'click #atras': 'atrasRestaurant',
+		'click #agregar-tip': 'crearTip'
+	},
+
+	initialize: function(){
+		$(this.el).unbind();
+		if(window.username.length == 0){
+			$('#contenido').prop( "disabled", true );
+			$('#agregar-tip').prop( "disabled", true );
+		}else{
+			$('#contenido').prop( "disabled", false );
+			$('#agregar-tip').prop( "disabled", false );
+		}
+		new app.RestaurantDetalle({model:this.model});
+
+		app.Tips.fetch();
+		app.Tips.on('add', this.agregarTip);
+	},
+
+	agregarTip: function(modelo){
+		var vista = new app.RestaurantTips({model: modelo});
+		$('#agregaTip').append(vista.render().$el);
+	},
+
+	atrasRestaurant: function(){
+		Backbone.history.navigate('', {trigger:true});
+	},
+
+	crearTip: function(){
+		var newTip = new app.restaurantTip({
+			"user": {
+				"username": window.username
+			},
+			"content": $("#contenido").val()
+		});
+		app.Tips.add(newTip);
+	}
+});
+
+app.RestaurantDetalle = Backbone.View.extend({
+	el: '#datosRestaurant',
+	template: _.template($('#tplRestaurantDetalle').html()),
+
+	initialize: function(){
+		this.render();
+	},
+
+	render: function(){
+		this.$el.html(this.template(this.model.toJSON()));
+	}
+});
+
+app.RestaurantTips = Backbone.View.extend({
+	template: _.template($('#tplTipRestaurant').html()),
+	className: 'media',
 
 	render: function(){
 		this.$el.html(this.template(this.model.toJSON()));
